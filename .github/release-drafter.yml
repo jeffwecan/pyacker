@@ -1,0 +1,37 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+commitish: 'refs/heads/develop'
+exclude-labels:
+  - 'release'
+  - 'skip-changelog'
+categories:
+  - title: '💥 Breaking Changes'
+    labels:
+      - 'breaking-change'
+  - title: '🚀 Features'
+    labels:
+      - 'enhancement'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'bug'
+  - title: '📚 Documentation'
+    labels:
+      - 'documentation'
+  - title: '🧰 Miscellaneous'
+    labels:
+      - 'misc'
+change-template: '- $TITLE. GH-$NUMBER'
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
+template: |
+
+  $CHANGES

@@ -1,0 +1,2 @@
+class PackerRegistryException(Exception):
+    pass

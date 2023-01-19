@@ -1,0 +1,46 @@
+---
+name: Test pyacker
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python_version:
+          - "3.8"
+          - "3.9"
+          - "3.10"
+          - "3.11"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python_version }}
+          cache: "pip"
+          cache-dependency-path: "requirements.txt"
+
+      - name: Install editable pyacker
+        run: pip install --editable .
+
+      - name: Install pytest
+        run: pip install pytest
+
+      - name: Install dependencies
+        run: pip install --requirement=requirements.txt
+
+      - name: pytest
+        run: python -m pytest --verbose .
+        env:
+          HCP_ORGANIZATION_ID: ${{ vars.HCP_ORGANIZATION_ID }}
+          HCP_PROJECT_ID: ${{ vars.HCP_PROJECT_ID }}
+          HCP_CLIENT_ID: ${{ vars.HCP_CLIENT_ID }}
+          HCP_CLIENT_SECRET: ${{ secrets.HCP_CLIENT_SECRET }}
